@@ -1,55 +1,70 @@
-# Prerequisites
-*.d
-
-# Object files
+# C/C++ build artifacts
 *.o
-*.ko
-*.obj
-*.elf
-
-# Linker output
-*.ilk
-*.map
-*.exp
-
-# Precompiled Headers
-*.gch
-*.pch
-
-# Libraries
-*.lib
 *.a
-*.la
-*.lo
-
-# Shared objects (inc. Windows DLLs)
-*.dll
 *.so
-*.so.*
 *.dylib
-
-# Executables
+*.dll
 *.exe
 *.out
-*.app
-*.i*86
-*.x86_64
-*.hex
+*.bin
+build/
+cmake-build-*/
+Debug/
+Release/
 
-# Debug files
-*.dSYM/
-*.su
-*.idb
-*.pdb
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
 
-# Kernel Module Compile Results
-*.mod*
-*.cmd
-.tmp_versions/
-modules.order
-Module.symvers
-Mkfile.old
-dkms.conf
+# Virtual Environment
+venv/
+ENV/
+env/
+.venv/
 
-# debug information files
-*.dwo
+# Environment variables
+.env
+.env.local
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# AI/ML specific
+*.h5
+*.pth
+*.pt
+*.onnx
+models/
+checkpoints/
+
+# Local config
+config.local.json
