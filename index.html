@@ -114,6 +114,32 @@
       line-height: 1.6;
     }
     
+    .code-sample {
+      background: #0F172A;
+      border-radius: 10px;
+      padding: 20px;
+      margin: 30px 0;
+      text-align: left;
+      font-family: 'Fira Code', monospace;
+      border: 1px solid rgba(67, 97, 238, 0.3);
+    }
+    
+    .code-sample .comment {
+      color: #64748B;
+    }
+    
+    .code-sample .keyword {
+      color: #4361EE;
+    }
+    
+    .code-sample .function {
+      color: #7209B7;
+    }
+    
+    .code-sample .string {
+      color: #00B4D8;
+    }
+    
     footer {
       margin-top: 40px;
       color: #64748B;
@@ -139,30 +165,40 @@
   <div class="container">
     <div class="logo-container">
       <div class="logo-text">FEYRA</div>
-      <div class="logo-tagline">Intelligent System Companion</div>
+      <div class="logo-tagline">System-Level Intelligence</div>
     </div>
     
     <div class="description">
-      <h1>AI assistant for system analysis and code generation</h1>
-      <p>Lightweight, powerful, and built for developers who work at the system level.</p>
+      <h1>AI assistant for C & Python system programming</h1>
+      <p>Lightweight analysis and code generation for low-level developers.</p>
+    </div>
+    
+    <div class="code-sample">
+      <span class="comment">// Feyra in action: system analysis</span><br>
+      <span class="keyword">int</span> analyze_memory(<span class="keyword">void</span>) {<br>
+      &nbsp;&nbsp;<span class="keyword">return</span> feyra_check_leaks(); <span class="comment">// ← AI-powered insight</span><br>
+      }<br><br>
+      <span class="comment"># Python interface</span><br>
+      <span class="keyword">import</span> feyra<br>
+      feyra.generate_c_code(<span class="string">"fast memory allocator"</span>)
     </div>
     
     <div class="features">
       <div class="feature">
-        <h3>System Analysis</h3>
-        <p>Deep insights into system performance, memory usage, and resource allocation.</p>
+        <h3>C Integration</h3>
+        <p>Native analysis for memory, pointers, and system calls.</p>
       </div>
       <div class="feature">
-        <h3>Code Generation</h3>
-        <p>Smart code completion and generation for low-level programming tasks.</p>
+        <h3>Python Bindings</h3>
+        <p>Easy scripting interface for rapid prototyping.</p>
       </div>
       <div class="feature">
         <h3>Terminal First</h3>
-        <p>Designed for the command line — your natural development environment.</p>
+        <p>Built for CLI — no GUI overhead, pure performance.</p>
       </div>
     </div>
     
-    <a href="https://github.com/YOUR_USERNAME/feyra" class="github-link">
+    <a href="https://github.com/Fbmi86/feyra.github.io" class="github-link">
       View on GitHub
     </a>
     
