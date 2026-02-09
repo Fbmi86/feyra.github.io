@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentation - Feyra AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background: #050505; color: white; }
+        .gradient-text { background: linear-gradient(135deg, #00d4ff, #7c3aed); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .glass { background: rgba(255,255,255,0.03); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); }
+        .code-block { background: #0a0a0a; border: 1px solid rgba(255,255,255,0.1); font-family: monospace; }
+    </style>
+</head>
+<body>
+
+    <nav class="fixed w-full z-50 bg-black/50 backdrop-blur-md border-b border-white/5">
+        <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="index.html" class="flex items-center gap-3">
+                <div class="w-8 h-8 bg-gradient-to-br from-cyan-400 to-purple-600 rounded-full"></div>
+                <span class="font-bold text-xl">Feyra AI</span>
+            </a>
+            <a href="index.html" class="text-sm text-gray-400 hover:text-white transition">← Back to Home</a>
+        </div>
+    </nav>
+
+    <div class="pt-32 pb-20 px-6 max-w-6xl mx-auto flex gap-12">
+        <!-- Sidebar -->
+        <aside class="hidden md:block w-64 shrink-0">
+            <div class="glass p-6 rounded-2xl sticky top-32">
+                <h3 class="font-semibold mb-4 text-gray-300">Documentation</h3>
+                <ul class="space-y-2 text-sm text-gray-400">
+                    <li><a href="#" class="hover:text-cyan-400 transition block py-1">Quick Start</a></li>
+                    <li><a href="#" class="hover:text-cyan-400 transition block py-1">Installation</a></li>
+                    <li><a href="#" class="hover:text-cyan-400 transition block py-1">Authentication</a></li>
+                    <li><a href="#" class="hover:text-cyan-400 transition block py-1">API Reference</a></li>
+                    <li><a href="#" class="hover:text-cyan-400 transition block py-1">Examples</a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <!-- Content -->
+        <main class="flex-1">
+            <h1 class="text-4xl font-bold mb-6 gradient-text">Documentation</h1>
+            
+            <div class="glass p-8 rounded-2xl mb-8">
+                <h2 class="text-2xl font-semibold mb-4">Quick Start</h2>
+                <p class="text-gray-400 mb-6">Get up and running with Feyra AI in minutes.</p>
+                
+                <div class="code-block p-4 rounded-lg mb-4 overflow-x-auto">
+                    <code class="text-sm text-green-400">
+                        # Install Feyra SDK<br>
+                        pip install feyra-ai
+                    </code>
+                </div>
+
+                <div class="code-block p-4 rounded-lg overflow-x-auto">
+                    <code class="text-sm text-blue-400">
+                        import feyra<br><br>
+                        client = feyra.Client(api_key="your_key")<br>
+                        response = client.analyze(text="Hello world")
+                    </code>
+                </div>
+            </div>
+
+            <div class="glass p-8 rounded-2xl">
+                <h2 class="text-2xl font-semibold mb-4">API Endpoints</h2>
+                <table class="w-full text-sm text-left text-gray-400">
+                    <thead class="text-gray-300 border-b border-white/10">
+                        <tr>
+                            <th class="pb-3">Endpoint</th>
+                            <th class="pb-3">Method</th>
+                            <th class="pb-3">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody class="space-y-2">
+                        <tr class="border-b border-white/5">
+                            <td class="py-3 text-cyan-400">/api/v1/analyze</td>
+                            <td class="py-3">POST</td>
+                            <td class="py-3">Analyze text content</td>
+                        </tr>
+                        <tr class="border-b border-white/5">
+                            <td class="py-3 text-cyan-400">/api/v1/vision</td>
+                            <td class="py-3">POST</td>
+                            <td class="py-3">Process images</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 text-cyan-400">/api/v1/predict</td>
+                            <td class="py-3">GET</td>
+                            <td class="py-3">Get predictions</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <footer class="py-8 text-center text-gray-600 text-sm border-t border-white/5">
+        <p>&copy; 2024 Feyra AI. Experimental Project.</p>
+    </footer>
+
+</body>
+</html>
