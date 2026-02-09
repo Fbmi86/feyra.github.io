@@ -1,60 +1,35 @@
 # 🌌 Feyra AI
 
-> **AI assistant for system analysis and code generation**
+> **AI assistant for C & Python system programming**
 
-Feyra is an intelligent companion designed for developers who work at the system level. Built with performance and simplicity in mind.
+Feyra is an intelligent companion designed for low-level developers. Built with performance in mind — no bloat, just pure system intelligence.
 
 ---
 
 ## 🚀 Features
 
-- **System Analysis**: Deep insights into system performance, memory usage, and resource allocation
-- **Code Generation**: Smart code completion and generation for low-level programming
-- **Terminal First**: Designed for the command line — your natural development environment
-- **Lightweight**: Minimal overhead, maximum efficiency
+- **C Code Analysis**: Deep insights into memory usage, pointer safety, and system calls
+- **Python Bindings**: Easy scripting interface for rapid prototyping
+- **Terminal First**: CLI-native design — works where you work
+- **Lightweight**: Minimal overhead, written in C for maximum efficiency
 
 ---
 
-## 📦 Installation
+## 💻 Example Usage
 
-Coming soon...
+### C Integration
+```c
+#include "feyra.h"
 
----
-
-## 🛠️ Tech Stack
-
-- **Language**: Rust / Python (TBD)
-- **AI Framework**: TBD
-- **License**: MIT
-
----
-
-## 🤝 Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
----
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
-
-## 🌐 Links
-
-- **Website**: https://YOUR_USERNAME.github.io/feyra
-- **GitHub**: https://github.com/YOUR_USERNAME/feyra
-
----
-
-## 👨‍💻 Author
-
-Built with ❤️ by [Your Name]
-
----
-
-## 🙏 Acknowledgments
-
-- Inspired by system-level tools and AI assistants
-- Logo design: Cosmic theme with cybernetic elements
+int main() {
+    feyra_init();
+    
+    // AI-powered memory analysis
+    feyra_memory_report();
+    
+    // Generate optimized code snippets
+    char* code = feyra_generate("fast hash function");
+    
+    feyra_cleanup();
+    return 0;
+}
