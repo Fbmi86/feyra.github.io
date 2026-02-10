@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat - Feyra AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background: #050505; color: white; }
+        .gradient-text { background: linear-gradient(135deg, #00d4ff, #7c3aed); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .glass { background: rgba(255,255,255,0.03); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); }
+        
+        /* Scrollbar for chat */
+        .chat-scroll::-webkit-scrollbar { width: 6px; }
+        .chat-scroll::-webkit-scrollbar-track { background: transparent; }
+        .chat-scroll::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 3px; }
+        
+        /* Typing animation */
+        .typing-dot { animation: typing 1.4s infinite; }
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+        
+        @keyframes typing {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-10px); }
+        }
+        
+        /* Message animations */
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .message-appear { animation: slideIn 0.3s ease-out; }
+    </style>
+</head>
+<body class="h-screen flex flex-col">
+
+    <!-- Navigation -->
+    <nav class="bg-black/50 backdrop-blur-md border-b border-white/5 px-6 py-4">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <a href="index.html" class="flex items-center gap-3">
+                <div class="w-8 h-8 bg-gradient-to-br from-cyan-400 to-purple-600 rounded-full"></div>
+                <span class="font-bold text-xl">Feyra AI</span>
+            </a>
+            <a href="index.html" class="text-sm text-gray-400 hover:text-white transition">← Back to Home</a>
+        </div>
+    </nav>
+
+    <!-- Chat Container -->
+    <main class="flex-1 flex max-w-4xl mx-auto w-full p-4 gap-4">
+        
+        <!-- Sidebar with quick questions -->
+        <aside class="hidden md:block w-64 shrink-0">
+            <div class="glass p-4 rounded-2xl sticky top-4">
+                <h3 class="text-sm font-semibold text-gray-400 mb-4 uppercase tracking-wider">Quick Questions</h3>
+                <div class="space-y-2">
+                    <button onclick="sendQuickMessage('What is Feyra AI?')" 
+                            class="w-full text-left p-3 rounded-lg hover:bg-white/5 transition text-sm text-gray-300 hover:text-white border border-transparent hover:border-cyan-400/30">
+                        🤖 What is Feyra AI?
+                    </button>
+                    <button onclick="sendQuickMessage('How do I get started?')" 
+                            class="w-full text-left p-3 rounded-lg hover:bg-white/5 transition text-sm text-gray-300 hover:text-white border border-transparent hover:border-purple-400/30">
+                        🚀 How do I get started?
+                    </button>
+                    <button onclick="sendQuickMessage('What features are available?')" 
+                            class="w-full text-left p-3 rounded-lg hover:bg-white/5 transition text-sm text-gray-300 hover:text-white border border-transparent hover:border-pink-400/30">
+                        ✨ What features are available?
+                    </button>
+                </div>
+                
+                <div class="mt-6 pt-6 border-t border-white/10">
+                    <p class="text-xs text-gray-500 mb-2">Powered by</p>
+                    <select id="api-selector" class="w-full bg-black/50 border border-white/10 rounded-lg px-3 py-2 text-sm text-gray-300">
+                        <option value="openai">OpenAI GPT</option>
+                        <option value="mock">Mock Response (Demo)</option>
+                    </select>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Chat Area -->
+        <div class="flex-1 flex flex-col glass rounded-2xl overflow-hidden">
+            
+            <!-- Chat Header -->
+            <div class="p-4 border-b border-white/10 flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                    <span class="font-semibold">Feyra Assistant</span>
+                    <span class="text-xs text-gray-500 px-2 py-1 bg-white/5 rounded-full">Beta</span>
+                </div>
+                <button onclick="clearChat()" class="text-xs text-gray-400 hover:text-white transition">
+                    Clear Chat
+                </button>
+            </div>
+
+            <!-- Messages -->
+            <div id="chat-messages" class="flex-1 overflow-y-auto p-4 space-y-4 chat-scroll">
+                <!-- Welcome Message -->
+                <div class="flex gap-3 message-appear">
+                    <div class="w-8 h-8 bg-gradient-to-br from-cyan-400 to-purple-600 rounded-full flex items-center justify-center shrink-0 text-xs font-bold">F</div>
+                    <div class="glass px-4 py-3 rounded-2xl rounded-tl-none max-w-[80%]">
+                        <p class="text-sm leading-relaxed">Hello! I'm Feyra AI assistant. I can answer questions about our platform, help you get started, or explain our features. What would you like to know?</p>
+                        <span class="text-xs text-gray-500 mt-1 block">Just now</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Typing Indicator (Hidden by default) -->
+            <div id="typing-indicator" class="hidden px-4 py-2">
+                <div class="flex gap-3">
+                    <div class="w-8 h-8 bg-gradient-to-br from-cyan-400 to-purple-600 rounded-full flex items-center justify-center shrink-0 text-xs font-bold">F</div>
+                    <div class="glass px-4 py-3 rounded-2xl rounded-tl-none flex items-center gap-1">
+                        <div class="w-2 h-2 bg-gray-400 rounded-full typing-dot"></div>
+                        <div class="w-2 h-2 bg-gray-400 rounded-full typing-dot"></div>
+                        <div class="w-2 h-2 bg-gray-400 rounded-full typing-dot"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Input Area -->
+            <div class="p-4 border-t border-white/10">
+                <form id="chat-form" class="flex gap-2">
+                    <input type="text" id="user-input" placeholder="Type your message..." 
+                           class="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-cyan-400 transition"
+                           autocomplete="off">
+                    <button type="submit" 
+                            class="px-6 py-3 bg-gradient-to-r from-cyan-500 to-purple-600 rounded-xl font-semibold hover:opacity-90 transition flex items-center gap-2">
+                        <span>Send</span>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
+                    </button>
+                </form>
+                <p class="text-xs text-gray-500 mt-2 text-center">Press Enter to send • AI responses are generated automatically</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- JavaScript -->
+    <script>
+        // Predefined responses for demo
+        const mockResponses = {
+            'what is feyra ai': "Feyra AI is an experimental artificial intelligence platform focused on natural language processing, computer vision, and data analytics. It's currently in development and hosted on GitHub Pages.",
+            'how do i get started': "To get started with Feyra AI:\n\n1. Visit our GitHub repository\n2. Check the documentation\n3. Try the API endpoints\n4. Join our community for updates\n\nWould you like a specific guide?",
+            'what features are available': "Current features include:\n\n🧠 Natural Language Processing\n👁️ Computer Vision\n📊 Data Analytics\n💻 Code Assistant\n🔌 REST API Access\n🔒 Security Tools\n\nMore features are being added regularly!",
+            'default': "I understand you're asking about \"" + "{query}" + "\". As a demo assistant, I have limited responses. Try asking:\n\n• What is Feyra AI?\n• How do I get started?\n• What features are available?\n\nOr select a quick question from the sidebar!"
+        };
+
+        // API Configuration (Replace with your actual API key)
+        const API_CONFIG = {
+            openai: {
+                url: 'https://api.openai.com/v1/chat/completions',
+                key: 'YOUR_OPENAI_API_KEY', // Replace this
+                model: 'gpt-3.5-turbo'
+            },
+            mock: {
+                url: null,
+                key: null
+            }
+        };
+
+        const chatMessages = document.getElementById('chat-messages');
+        const chatForm = document.getElementById('chat-form');
+        const userInput = document.getElementById('user-input');
+        const typingIndicator = document.getElementById('typing-indicator');
+        const apiSelector = document.getElementById('api-selector');
+
+        let messageHistory = [];
+
+        // Send message on form submit
+        chatForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const message = userInput.value.trim();
+            if (!message) return;
+
+            // Add user message
+            addMessage(message, 'user');
+            userInput.value = '';
+
+            // Show typing
+            showTyping();
+
+            // Get response
+            const response = await getAIResponse(message);
+            
+            // Hide typing and add response
+            hideTyping();
+            addMessage(response, 'ai');
+        });
+
+        // Quick message from sidebar
+        function sendQuickMessage(message) {
+            addMessage(message, 'user');
+            showTyping();
+            
+            setTimeout(async () => {
+                const response = await getAIResponse(message);
+                hideTyping();
+                addMessage(response, 'ai');
+            }, 800); // Small delay for realism
+        }
+
+        // Add message to chat
+        function addMessage(text, sender) {
+            const div = document.createElement('div');
+            div.className = 'flex gap-3 message-appear ' + (sender === 'user' ? 'flex-row-reverse' : '');
+            
+            const avatar = sender === 'user' 
+                ? '<div class="w-8 h-8 bg-gray-600 rounded-full flex items-center justify-center shrink-0 text-xs">You</div>'
+                : '<div class="w-8 h-8 bg-gradient-to-br from-cyan-400 to-purple-600 rounded-full flex items-center justify-center shrink-0 text-xs font-bold">F</div>';
+            
+            const bubbleClass = sender === 'user'
+                ? 'bg-gradient-to-r from-cyan-600 to-blue-600 rounded-2xl rounded-tr-none'
+                : 'glass rounded-2xl rounded-tl-none';
+            
+            div.innerHTML = `
+                ${avatar}
+                <div class="${bubbleClass} px-4 py-3 max-w-[80%]">
+                    <p class="text-sm leading-relaxed whitespace-pre-line">${escapeHtml(text)}</p>
+                    <span class="text-xs ${sender === 'user' ? 'text-cyan-200' : 'text-gray-500'} mt-1 block">${getTime()}</span>
+                </div>
+            `;
+            
+            chatMessages.appendChild(div);
+            scrollToBottom();
+            
+            // Save to history
+            messageHistory.push({ sender, text, time: getTime() });
+        }
+
+        // Get AI response
+        async function getAIResponse(query) {
+            const apiType = apiSelector.value;
+            
+            if (apiType === 'mock') {
+                // Mock response for demo
+                await delay(1000); // Simulate network delay
+                const lowerQuery = query.toLowerCase();
+                
+                for (const [key, value] of Object.entries(mockResponses)) {
+                    if (lowerQuery.includes(key.replace(/[?]/g, ''))) {
+                        return value;
+                    }
+                }
+                return mockResponses.default.replace('{query}', query);
+                
+            } else {
+                // Real API call (OpenAI example)
+                try {
+                    const response = await fetch(API_CONFIG.openai.url, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${API_CONFIG.openai.key}`
+                        },
+                        body: JSON.stringify({
+                            model: API_CONFIG.openai.model,
+                            messages: [
+                                { role: 'system', content: 'You are Feyra AI assistant. Be helpful and concise.' },
+                                { role: 'user', content: query }
+                            ],
+                            max_tokens: 150
+                        })
+                    });
+                    
+                    const data = await response.json();
+                    return data.choices[0].message.content;
+                    
+                } catch (error) {
+                    console.error('API Error:', error);
+                    return "Sorry, I'm having trouble connecting to the AI service. Please check your API key or try the Mock mode for demo.";
+                }
+            }
+        }
+
+        // Utility functions
+        function showTyping() {
+            typingIndicator.classList.remove('hidden');
+            scrollToBottom();
+        }
+
+        function hideTyping() {
+            typingIndicator.classList.add('hidden');
+        }
+
+        function scrollToBottom() {
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function getTime() {
+            return new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function delay(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        function clearChat() {
+            chatMessages.innerHTML = `
+                <div class="flex gap-3 message-appear">
+                    <div class="w-8 h-8 bg-gradient-to-br from-cyan-400 to-purple-600 rounded-full flex items-center justify-center shrink-0 text-xs font-bold">F</div>
+                    <div class="glass px-4 py-3 rounded-2xl rounded-tl-none max-w-[80%]">
+                        <p class="text-sm leading-relaxed">Chat cleared. How can I help you today?</p>
+                        <span class="text-xs text-gray-500 mt-1 block">Just now</span>
+                    </div>
+                </div>
+            `;
+            messageHistory = [];
+        }
+
+        // Mobile quick questions (dropdown for mobile)
+        if (window.innerWidth < 768) {
+            const mobileQuickQuestions = document.createElement('div');
+            mobileQuickQuestions.className = 'md:hidden mb-4';
+            mobileQuickQuestions.innerHTML = `
+                <select onchange="if(this.value) sendQuickMessage(this.value)" class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-sm text-gray-300">
+                    <option value="">📱 Quick Questions...</option>
+                    <option value="What is Feyra AI?">What is Feyra AI?</option>
+                    <option value="How do I get started?">How do I get started?</option>
+                    <option value="What features are available?">What features are available?</option>
+                </select>
+            `;
+            document.querySelector('.glass.rounded-2xl').insertBefore(mobileQuickQuestions, document.getElementById('chat-messages'));
+        }
+    </script>
+
+</body>
+</html>
