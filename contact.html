@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact - Feyra AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background: #050505; color: white; }
+        .gradient-text { background: linear-gradient(135deg, #00d4ff, #7c3aed); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .glass { background: rgba(255,255,255,0.03); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); }
+        input, textarea { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); }
+        input:focus, textarea:focus { outline: none; border-color: #00d4ff; }
+    </style>
+</head>
+<body>
+
+    <nav class="fixed w-full z-50 bg-black/50 backdrop-blur-md border-b border-white/5">
+        <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="index.html" class="flex items-center gap-3">
+                <div class="w-8 h-8 bg-gradient-to-br from-cyan-400 to-purple-600 rounded-full"></div>
+                <span class="font-bold text-xl">Feyra AI</span>
+            </a>
+            <div class="hidden md:flex gap-8 text-sm text-gray-400">
+                <a href="features.html" class="hover:text-white transition">Features</a>
+                <a href="about.html" class="hover:text-white transition">About</a>
+                <a href="contact.html" class="text-cyan-400">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="pt-32 pb-20 px-6 max-w-2xl mx-auto">
+        <h1 class="text-4xl md:text-5xl font-bold mb-8 text-center">
+            Get in <span class="gradient-text">Touch</span>
+        </h1>
+
+        <div class="glass p-8 rounded-2xl">
+            <p class="text-gray-400 mb-8 text-center">
+                Have questions or want to collaborate? Reach out through the form below or connect on GitHub.
+            </p>
+
+            <!-- Formspree برای GitHub Pages (رایگان و بدون بک‌اند) -->
+            <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST" class="space-y-4">
+                <div>
+                    <label class="block text-sm text-gray-400 mb-2">Name</label>
+                    <input type="text" name="name" required class="w-full px-4 py-3 rounded-lg text-white placeholder-gray-600" placeholder="Your name">
+                </div>
+                
+                <div>
+                    <label class="block text-sm text-gray-400 mb-2">Email</label>
+                    <input type="email" name="email" required class="w-full px-4 py-3 rounded-lg text-white placeholder-gray-600" placeholder="your@email.com">
+                </div>
+                
+                <div>
+                    <label class="block text-sm text-gray-400 mb-2">Message</label>
+                    <textarea name="message" rows="4" required class="w-full px-4 py-3 rounded-lg text-white placeholder-gray-600 resize-none" placeholder="Your message..."></textarea>
+                </div>
+
+                <button type="submit" class="w-full py-4 bg-gradient-to-r from-cyan-500 to-purple-600 rounded-lg font-semibold hover:opacity-90 transition">
+                    Send Message
+                </button>
+            </form>
+
+            <div class="mt-8 pt-8 border-t border-white/10 text-center">
+                <p class="text-gray-400 text-sm mb-4">Or connect directly:</p>
+                <div class="flex justify-center gap-4">
+                    <a href="https://github.com/Fbmi86/feyra.github.io/issues" target="_blank" class="px-4 py-2 glass rounded-lg hover:bg-white/5 transition text-sm">
+                        GitHub Issues
+                    </a>
+                    <a href="mailto:your-email@example.com" class="px-4 py-2 glass rounded-lg hover:bg-white/5 transition text-sm">
+                        Email
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="py-8 text-center text-gray-600 text-sm border-t border-white/5">
+        <p>&copy; 2024 Feyra AI. Experimental Project.</p>
+    </footer>
+
+</body>
+</html>
